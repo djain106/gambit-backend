@@ -2,11 +2,13 @@ import express from 'express';
 import mongoose from 'mongoose';
 import User from './User.js';
 import Cors from 'cors';
+import dotenv from 'dotenv';
 
 // App Config
+dotenv.config();
 const app = express();
 const port = process.env.PORT || "8001";
-const password = "P9zDzy8cm6Y8BfOg";
+const password = process.env.PASSWORD;
 const connection_url = `mongodb+srv://admin:${password}@databasecluster.runk9.mongodb.net/usersdb?retryWrites=true&w=majority`;
 
 // Middlewares
