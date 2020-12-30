@@ -1,6 +1,5 @@
 import express from 'express';
 import { body, validationResult } from 'express-validator';
-import validateCookies from '../middleware/validateCookie.js';
 import User from '../schemas/User.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
