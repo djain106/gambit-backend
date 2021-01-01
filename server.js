@@ -4,6 +4,7 @@ import User from './schemas/User.js';
 import Cors from 'cors';
 import dotenv from 'dotenv';
 import authenticationRouter from './routers/authentication.js'
+import balanceRouter from './routers/balance.js'
 import cookieParser from 'cookie-parser'
 import errorHandler from './middleware/errorHandler.js'
 
@@ -19,6 +20,7 @@ app.use(Cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use('/auth', authenticationRouter);
+app.use('/balance', balanceRouter);
 app.use(errorHandler);
 
 // DB Config
