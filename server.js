@@ -1,6 +1,5 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import User from './schemas/User.js';
 import Cors from 'cors';
 import dotenv from 'dotenv';
 import authenticationRouter from './routers/authentication.js'
@@ -35,28 +34,6 @@ mongoose.connect(connection_url,
 
 // API Endpoints
 app.get('/', (req, res) => res.status(200).send('Connection verified.'));
-
-app.post('/users', (req, res) => {
-    const user = req.body;
-    console.log(req.cookies)
-    User.create(user, (err, data) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.status(201).send(data);
-        }
-    });
-});
-
-app.get('/users', (req, res) => {
-    User.find((err, data) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.status(200).send(data);
-        }
-    });
-});
 
 // Listener
 app.listen(port, () => console.log(`listening on localhost: ${port}`))
