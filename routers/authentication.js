@@ -31,31 +31,36 @@ router.post('/login',
 
         const currentUser = await User.findOne({
             username: username
-        });
-
-        if (!currentUser) {
-            return next("Email or password is incorrect.")
-        }
-
-        const compPass = await bcrypt.compare(password, currentUser.password);
-
-        if (!compPass) {
-            return next("Email or password is incorrect.")
-        }
-
-        const token = jwt.sign({ id: currentUser._id }
-            , PRIVATE_KEY
-            , { expiresIn: TOKEN_EXPIRY });
-        currentUser.password = '';
-        res.status(200).json({
-            token,
-            user: {
-                username: currentUser.username,
-                balance: currentUser.balance,
+        }).then((data) => {
+            console.log(res);
+            if (!data) {
+                return next("Email or password is incorrect.")
             }
+
+            const compPass = bcrypt.compare(password, data.password);
+
+            if (!compPass) {
+                return next("Email or password is incorrect.")
+            }
+
+            const token = jwt.sign({ id: data._id }
+                , PRIVATE_KEY
+                , { expiresIn: TOKEN_EXPIRY });
+            data.password = '';
+            res.status(200).json({
+                token,
+                user: {
+                    username: data.username,
+                    balance: data.balance,
+                }
+            });
+
+            next();
+        }).catch((err) => {
+            next(err)
         });
 
-        next();
+
     });
 
 // Authenticate user registration to application.
