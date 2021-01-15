@@ -32,7 +32,6 @@ router.post('/login',
         const currentUser = await User.findOne({
             username: username
         }).then((data) => {
-            console.log(res);
             if (!data) {
                 return next("Email or password is incorrect.")
             }
