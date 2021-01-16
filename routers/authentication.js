@@ -21,6 +21,7 @@ router.post('/login',
     body('username').isAlphanumeric().isLength({ min: 5 }),
     body('password').isAlphanumeric().isLength({ min: 8 }),
     async (req, res, next) => {
+        console.log(req);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return next(errors)
@@ -110,15 +111,13 @@ router.post('/register',
 router.get('/user', verifyToken,
     async (req, res, next) => {
         const id_ = req.auth.id;
-        try {
-            const currentUser = await User.findById(id_);
+        const currentUser = await User.findById(id_).then((data) => {
             res.json({
-                username: currentUser.username,
-                balance: currentUser.balance,
+                username: data.username,
+                balance: data.balance,
             })
-        } catch (err) {
+        }).catch((err) => {
             return next(err);
-        }
-
+        });
     });
 export default router
